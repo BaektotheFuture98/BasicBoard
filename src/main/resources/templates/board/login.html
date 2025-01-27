@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>·Î±×ÀÎ</title>
+    <meta charset="UTF-8">
+    <title>ë¡œê·¸ì¸</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,7 +15,7 @@
         }
         .login-container {
             width: 100%;
-            max-width: 400px; /* ÃÖ´ë Å©±â¸¦ Á¦ÇÑ */
+            max-width: 400px; /* ìµœëŒ€ í¬ê¸°ë¥¼ ì œí•œ */
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 10px;
@@ -26,15 +27,15 @@
             text-align: center;
         }
         .login-container input {
-            width: 100%; /* ºÎ¸ğ ¿ä¼Ò¿¡ ¸ÂÃã */
-            box-sizing: border-box; /* ÆĞµù Æ÷ÇÔ Å©±â °è»ê */
+            width: 100%; /* ë¶€ëª¨ ìš”ì†Œì— ë§ì¶¤ */
+            box-sizing: border-box; /* íŒ¨ë”© í¬í•¨ í¬ê¸° ê³„ì‚° */
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
         .login-container button {
-            width: 100%; /* ¹öÆ°µµ ºÎ¸ğ ¿ä¼Ò¿¡ ¸ÂÃã */
+            width: 100%; /* ë²„íŠ¼ë„ ë¶€ëª¨ ìš”ì†Œì— ë§ì¶¤ */
             padding: 10px;
             background-color: #4CAF50;
             color: white;
@@ -49,11 +50,11 @@
 </head>
 <body>
 <div class="login-container">
-    <h2>·Î±×ÀÎ</h2>
+    <h2>ë¡œê·¸ì¸</h2>
     <form th:action="@{/login}" method="post">
-        <input type="text" name="username" placeholder="¾ÆÀÌµğ" required>
-        <input type="password" name="password" placeholder="ºñ¹Ğ¹øÈ£" required>
-        <button type="submit">·Î±×ÀÎ</button>
+        <input type="text" name="id" placeholder="ì•„ì´ë””" required>
+        <input type="password" name="password" placeholder="ë¹„ë°€ë²ˆí˜¸" required>
+        <button type="submit">ë¡œê·¸ì¸</button>
     </form>
 </div>
 </body>

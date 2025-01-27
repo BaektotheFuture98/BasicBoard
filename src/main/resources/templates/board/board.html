@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 목록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .board-container {
+            width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .board-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .post-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .post-list li {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .post-list li a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .post-list li a:hover {
+            color: #007bff;
+        }
+
+        .add-post-btn {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .add-post-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="board-container">
+    <h2>게시글 목록</h2>
+    <p><span th:text="${id}"> 님 환영합니다! </span></p>
+    <ul class="post-list">
+        <li><a href="/post/1">게시글 제목 1</a></li>
+        <li><a href="/post/2">게시글 제목 2</a></li>
+        <li><a href="/post/3">게시글 제목 3</a></li>
+    </ul>
+    <a href="/post/new" class="add-post-btn">+ 새 게시글 작성</a>
+</div>
+</body>
+</html>
