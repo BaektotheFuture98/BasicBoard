@@ -13,7 +13,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     public Member save(Member member) {
         member.setSequecne(++sequence);
         store.put(member.getSequecne(), member);
-        return null;
+        return member;
     }
 
     @Override
