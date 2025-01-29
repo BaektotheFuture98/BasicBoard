@@ -1,12 +1,13 @@
-package com.engine.springbootquickstart_v2.board;
+package com.engine.springbootquickstart_v2.board.domain;
 
 
 import lombok.Data;
 
 @Data
-public class BoardDTO {
+public class Member {
     private String id;
     private String password;
+    private long sequecne;
 
 //    private void setId(String id) {
 //        this.id = id;
