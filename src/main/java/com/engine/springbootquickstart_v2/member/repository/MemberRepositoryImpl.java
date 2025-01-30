@@ -26,7 +26,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> findById(Long id) {
+    public Optional<Member> findById(String id) {
         return Optional.ofNullable(store.get(id));
     }
 

@@ -16,7 +16,7 @@ public class MemberRepositoryTest {
         member.setId("spring");
 
         repository.save(member);
-        Member result = repository.findById(member.getSequecne()).get();
+        Member result = repository.findById(member.getId()).get();
         Assertions.assertEquals(member, result); // 왼 : 기대값, 오 :  판별대상
     }
 }

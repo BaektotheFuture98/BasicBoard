@@ -1,7 +1,6 @@
 package com.engine.springbootquickstart_v2.member.service;
 
 import com.engine.springbootquickstart_v2.member.dto.Member;
-import com.engine.springbootquickstart_v2.member.repository.MemberRepository;
 import com.engine.springbootquickstart_v2.member.repository.MemberRepositoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +18,14 @@ public class LoginService {
         this.memberRepository = memberRepository;
     }
 
-    public boolean authenticate(Member member) {
-        String id = member.getId();
-        memberRepository.
+    public boolean authenticate(String id) {
+        Member subject = memberRepository.findById(id).get();
+        //subject.equals()
+        if(subject.getId().equals(id)){
+            return true;
+        }else {
+            return false;
+        }
+
     }
 }
