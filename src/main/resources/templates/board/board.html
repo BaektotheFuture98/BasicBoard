@@ -1,83 +1,81 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시글 목록</title>
+    <title>게시판</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background-color: #f4f4f4;
         }
-
         .board-container {
             width: 400px;
-            background-color: #fff;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
             text-align: center;
         }
-
-        .board-container h2 {
-            margin-bottom: 20px;
-        }
-
-        .post-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .post-list li {
+        input[type="text"] {
+            width: 80%;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            text-align: left;
         }
-
-        .post-list li a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        .post-list li a:hover {
-            color: #007bff;
-        }
-
-        .add-post-btn {
-            display: block;
-            margin: 20px auto 0;
-            padding: 10px 20px;
+        button {
+            padding: 10px;
             background-color: #007bff;
             color: white;
-            text-decoration: none;
+            border: none;
             border-radius: 5px;
-            font-size: 14px;
+            cursor: pointer;
         }
-
-        .add-post-btn:hover {
-            background-color: #0056b3;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
         }
     </style>
 </head>
 <body>
 <div class="board-container">
-    <h2>게시글 목록</h2>
-    <p><span th:text="${id}"></span>님 환영합니다!</p>
-    <ul class="post-list">
-        <li><a href="/post/1">게시글 제목 1</a></li>
-        <li><a href="/post/2">게시글 제목 2</a></li>
-        <li><a href="/post/3">게시글 제목 3</a></li>
-    </ul>
-    <a href="/post/new" class="add-post-btn">+ 새 게시글 작성</a>
+    <h2>게시판</h2>
+    <p>%{id}님 환영합니다!</p>
+    <form th:action="@{/board/search}" method="get">
+        <input type="text" name="keyword" placeholder="제목 검색">
+        <button type="submit">검색</button>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${posts}">
+            <td th:text="${post.id}"></td>
+            <td><a th:href="@{/board/{id}(id=${post.id})}" th:text="${post.title}"></a></td>
+            <td th:text="${post.author}"></td>
+            <td th:text="${post.createdAt}"></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

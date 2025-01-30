@@ -1,4 +1,4 @@
-package com.engine.springbootquickstart_v2.board.domain;
+package com.engine.springbootquickstart_v2.member.dto;
 
 
 import lombok.Data;

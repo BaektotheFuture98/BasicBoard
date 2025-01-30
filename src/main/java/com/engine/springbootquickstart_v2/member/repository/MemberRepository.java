@@ -1,6 +1,6 @@
-package com.engine.springbootquickstart_v2.board.repository;
+package com.engine.springbootquickstart_v2.member.repository;
 
-import com.engine.springbootquickstart_v2.board.domain.Member;
+import com.engine.springbootquickstart_v2.member.dto.Member;
 
 import java.util.List;
 import java.util.Optional;
