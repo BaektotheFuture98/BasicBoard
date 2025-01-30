@@ -12,29 +12,37 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class LoginController {
     Logger logger = LoggerFactory.getLogger(LoginController.class);
-    private static LoginService loginService;
+    private final LoginService loginService;
 
     @Autowired
     public LoginController(LoginService loginService) {
-        LoginController.loginService = loginService;
+        this.loginService = loginService;
     }
 
     @GetMapping("/")
-    private String ShowLoginPage(){
+    public String ShowLoginPage(){
+        logger.info("Show login page");
         return "member/login";
     }
 
-    @PostMapping("/login")
-    private String Login(String id, String password, HttpSession session, Model model){
+    @GetMapping("/error")
+    public String ShowLoginErrorPage(){
+        logger.info("Show login error page");
+        return "eroror";
+    }
+
+    @PostMapping("member/login")
+    public String Login(String id, String password, HttpSession session, Model model){
         // 작성 필요
+        logger.info("Login form");
         if(loginService.authenticate(id)){
             session.setAttribute("id", id);
-            session.setAttribute("password", password);
+            model.addAttribute("id", id);
+            logger.info("Login Success");
             return "redirect:board/board";
         }else {
             logger.info("login Fail");
-            return "redirect:/";
+            return "member/login";
         }
     }
-
 }

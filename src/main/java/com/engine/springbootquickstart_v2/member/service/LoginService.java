@@ -20,6 +20,7 @@ public class LoginService {
 
     public boolean authenticate(String id) {
         Member subject = memberRepository.findById(id).get();
+        logger.info("Authenticating user with id {}", id);
         //subject.equals()
         if(subject.getId().equals(id)){
             return true;
