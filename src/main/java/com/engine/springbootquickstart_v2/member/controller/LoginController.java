@@ -39,7 +39,7 @@ public class LoginController {
             session.setAttribute("id", id);
             model.addAttribute("id", id);
             logger.info("Login Success");
-            return "redirect:board/board";
+            return "redirect:/board/board";
         }else {
             logger.info("login Fail");
             return "member/login";

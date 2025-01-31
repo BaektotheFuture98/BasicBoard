@@ -15,7 +15,7 @@ public class MemberRepositoryImpl implements MemberRepository {
         Member member = new Member();
         member.setId("seonmin");
         member.setPassword("1234");
-        store.put(sequence, member);
+        store.put(1L, member);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @Override
     public Optional<Member> findById(String id) {
-        return Optional.ofNullable(store.get(id));
+        return Optional.ofNullable(store.get(1L));
     }
 
     @Override

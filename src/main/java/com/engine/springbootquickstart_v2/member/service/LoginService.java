@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class LoginService {
@@ -19,14 +21,12 @@ public class LoginService {
     }
 
     public boolean authenticate(String id) {
-        Member subject = memberRepository.findById(id).get();
+        Optional<Member> subject = memberRepository.findById(id);
         logger.info("Authenticating user with id {}", id);
-        //subject.equals()
-        if(subject.getId().equals(id)){
+        if(subject.isPresent()) {
             return true;
         }else {
             return false;
         }
-
     }
 }
