@@ -25,6 +25,9 @@ public class BoardService {
         boardRepository.save(article);
     }
 
+    public Optional<Article> getArticle(Long id) {
+        return boardRepository.findById(id);
+    }
 
     public Optional<List<Article>> getAllList(){
         return boardRepository.findAll();

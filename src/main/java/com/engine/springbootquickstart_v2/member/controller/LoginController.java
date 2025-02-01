@@ -27,7 +27,6 @@ public class LoginController {
 
     @GetMapping("/error")
     public String ShowLoginErrorPage(){
-        logger.info("Show login error page");
         return "eroror";
     }
 

@@ -20,7 +20,13 @@ public class BoardRepositoryImpl implements BoardRepository {
 
     @Override
     public Optional<Article> findById(Long id) {
-        return Optional.empty();
+        Optional<Article> answer = Optional.empty();
+        for(Article article : articles){
+            if(article.getId().equals(Long.toString(id))){
+                answer = Optional.of(article);
+            }
+        }
+        return answer;
     }
 
     @Override
