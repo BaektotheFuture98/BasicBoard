@@ -31,18 +31,18 @@ public class LoginController {
         return "eroror";
     }
 
-    @PostMapping("member/login")
-    public String Login(String id, String password, HttpSession session, Model model){
+    @PostMapping("/member/login")
+    public String Login(String id, String password, HttpSession session){
         // 작성 필요
         logger.info("Login form");
         if(loginService.authenticate(id)){
             session.setAttribute("id", id);
-            model.addAttribute("id", id);
+            session.setAttribute("password", password);
             logger.info("Login Success");
             return "redirect:/board/board";
         }else {
             logger.info("login Fail");
-            return "member/login";
+            return "/member/login";
         }
     }
 }
