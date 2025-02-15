@@ -1,5 +1,6 @@
 package com.engine.springbootquickstart_v2.member.controller;
 
+import com.engine.springbootquickstart_v2.member.dto.Member;
 import com.engine.springbootquickstart_v2.member.service.LoginService;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -22,26 +23,27 @@ public class LoginController {
     @GetMapping("/")
     public String ShowLoginPage(){
         logger.info("Show login page");
-        return "member/login";
+        return "/member/loginPage";
     }
 
-    @GetMapping("/error")
-    public String ShowLoginErrorPage(){
-        return "eroror";
-    }
+    @PostMapping("/member/loginPage")
+    public String Login(Member member, HttpSession session){
+        try{
+            String id = member.getId();
+            String password = member.getPassword();
 
-    @PostMapping("/member/login")
-    public String Login(String id, String password, HttpSession session){
-        // 작성 필요
-        logger.info("Login form");
-        if(loginService.authenticate(id)){
-            session.setAttribute("id", id);
-            session.setAttribute("password", password);
-            logger.info("Login Success");
-            return "redirect:/board/board";
-        }else {
+            if(loginService.authenticate(id)){
+                session.setAttribute("id", id);
+                session.setAttribute("password", password);
+                logger.info("Login Success");
+                return "redirect:/board/board";
+            }else {
+                logger.info("login Fail");
+                return "redirect:/";
+            }
+        }catch (Exception e){
             logger.info("login Fail");
-            return "/member/login";
+            return "redirect:/";
         }
     }
 }

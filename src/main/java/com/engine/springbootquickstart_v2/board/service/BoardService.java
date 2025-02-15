@@ -2,9 +2,7 @@ package com.engine.springbootquickstart_v2.board.service;
 
 import com.engine.springbootquickstart_v2.board.dto.Article;
 import com.engine.springbootquickstart_v2.board.repository.BoardRepository;
-import com.engine.springbootquickstart_v2.board.repository.BoardRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 

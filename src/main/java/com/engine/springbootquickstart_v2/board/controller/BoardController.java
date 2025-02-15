@@ -33,15 +33,15 @@ public class BoardController {
         List<Article> posts = new ArrayList<>();
         model.addAttribute("id", session.getAttribute("id"));
 
-        Optional<List<Article>> list = boardService.getAllList();  // 🔥 게시글 리스트 가져오기
-        if (list.isPresent()) {  // ✅ Optional 체크
+        Optional<List<Article>> list = boardService.getAllList();  // 게시글 리스트 가져오기
+        if (list.isPresent()) {  // Optional 체크
             posts = list.get();
         }
-        model.addAttribute("posts", posts);  // ✅ 모델에 게시글 리스트 추가
-        return "board/board";  // ✅ Thymeleaf 뷰 반환
+        model.addAttribute("posts", posts);  // 모델에 게시글 리스트 추가
+        return "/board/board";  // Thymeleaf 뷰 반환
     }
 
-    // 📌 게시글 작성
+    // 게시글 작성
     @PostMapping("/board/write")
     public String write(@RequestParam String title, @RequestParam String content, HttpSession session) {
         String id = (String) session.getAttribute("id");
@@ -57,12 +57,12 @@ public class BoardController {
 
     // 📌 특정 게시글 JSON 반환 (모달에서 사용)
     @GetMapping("/board/{id}")
-    @ResponseBody  // ✅ JSON 형식으로 반환
+    @ResponseBody  // JSON 형식으로 반환
     public ResponseEntity<?> getArticle(@PathVariable Long id) {
         Optional<Article> article = boardService.getArticle(id);
         logger.info("article : {}", article.get());
         if (article.isPresent()) {
-            return ResponseEntity.ok(article.get());  // ✅ 200 OK와 함께 데이터 반환
+            return ResponseEntity.ok(article.get());  // 200 OK와 함께 데이터 반환
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("게시글을 찾을 수 없습니다.");
         }

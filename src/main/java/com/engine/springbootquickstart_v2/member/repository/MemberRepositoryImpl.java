@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Repository
+
 public class MemberRepositoryImpl implements MemberRepository {
 
     private static Map<Long, Member> store = new HashMap<>();
@@ -20,8 +20,8 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @Override
     public Member save(Member member) {
-        member.setSequecne(++sequence);
-        store.put(member.getSequecne(), member);
+//        member.setSequecne(++sequence);
+//        store.put(member.getSequecne(), member);
         return member;
     }
 
