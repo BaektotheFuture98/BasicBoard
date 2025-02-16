@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface BoardRepository {
     Article save(Article article);
-    Optional<Article> findById(Long id);
+    Optional<Article> findById(long id);
     Optional<Article> findByTitle(String title);
     Optional<Article> findByContent(String content);
     Optional<List<Article>> findAll();

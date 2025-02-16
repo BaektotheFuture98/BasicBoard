@@ -2,6 +2,7 @@ package com.engine.springbootquickstart_v2.board.controller;
 
 import com.engine.springbootquickstart_v2.board.dto.Article;
 import com.engine.springbootquickstart_v2.board.service.BoardService;
+import com.engine.springbootquickstart_v2.util.DateUtil;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,22 +46,19 @@ public class BoardController {
 
     // 게시글 작성
     @PostMapping("/board/write")
-    public String write(@RequestParam String title, @RequestParam String content, HttpSession session) {
+    public String write(Article article, HttpSession session) {
         String id = (String) session.getAttribute("id");
-        String password = (String) session.getAttribute("password");
-
-        logger.info("id : {}, password : {}", id, password);
-        Article article = new Article(articleNum++, id, title, content);
-        logger.info("article : {}", article);
+        String name = (String) session.getAttribute("name");
+        article.setAuthor(name);
+        article.setId(id);
         boardService.addArticle(article);
-
         return "redirect:/board/board";  // ✅ 글 작성 후 게시판으로 이동
     }
 
     // 📌 특정 게시글 JSON 반환 (모달에서 사용)
     @GetMapping("/board/{id}")
     @ResponseBody  // JSON 형식으로 반환
-    public ResponseEntity<?> getArticle(@PathVariable Long id) {
+    public ResponseEntity<?> getArticle(@PathVariable long id) {
         Optional<Article> article = boardService.getArticle(id);
         logger.info("article : {}", article.get());
         if (article.isPresent()) {

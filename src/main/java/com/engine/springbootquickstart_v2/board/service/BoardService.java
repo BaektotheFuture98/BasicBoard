@@ -2,6 +2,9 @@ package com.engine.springbootquickstart_v2.board.service;
 
 import com.engine.springbootquickstart_v2.board.dto.Article;
 import com.engine.springbootquickstart_v2.board.repository.BoardRepository;
+import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Transactional
 public class BoardService {
-
+    Logger logger = LoggerFactory.getLogger(BoardService.class);
     private BoardRepository boardRepository;
 
     @Autowired
@@ -23,7 +26,8 @@ public class BoardService {
         boardRepository.save(article);
     }
 
-    public Optional<Article> getArticle(Long id) {
+    public Optional<Article> getArticle(long id) {
+        logger.info("Get article by id: {}", id);
         return boardRepository.findById(id);
     }
 

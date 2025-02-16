@@ -30,11 +30,11 @@ public class LoginController {
     public String Login(Member member, HttpSession session){
         try{
             String id = member.getId();
-            String password = member.getPassword();
+            String name = member.getName();
 
             if(loginService.authenticate(id)){
                 session.setAttribute("id", id);
-                session.setAttribute("password", password);
+                session.setAttribute("name", name);
                 logger.info("Login Success");
                 return "redirect:/board/board";
             }else {

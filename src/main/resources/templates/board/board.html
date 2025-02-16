@@ -38,11 +38,6 @@
             cursor: pointer;
             margin-left: 5px;
         }
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -117,12 +112,9 @@
         </thead>
         <tbody>
         <tr th:each="post : ${posts}">
-            <td th:text="${post.id}"></td>
+            <td th:text="${post.article_num}"></td>
             <td>
-                <a th:href="@{/board/{id}(id=${post.id})}"
-                   th:text="${post.title}"
-                   th:attr="data-id=${post.id}"
-                   onclick="openPostModal(this); return false;"></a>
+                <a href="#" th:text="${post.title}" th:attr="data-id=${post.article_num}" onclick="openPostModal(this); return false;"></a>
             </td>
             <td th:text="${post.author}"></td>
             <td th:text="${post.createdAt}"></td>
@@ -148,8 +140,7 @@
 <div id="postModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closePostModal()">&times;</span>
-        <h2>게시글 상세</h2>
-        <p id="postTitle"></p>
+        <h2 id="postTitle"></h2>
         <p id="postAuthor"></p>
         <p id="postCreatedAt"></p>
         <div id="postContent"></div>
