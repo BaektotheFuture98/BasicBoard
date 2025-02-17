@@ -14,4 +14,6 @@ public class Article {
     private String id;
     private String author;
     private String createdAt;
+    private String imageUrl;
+
 }

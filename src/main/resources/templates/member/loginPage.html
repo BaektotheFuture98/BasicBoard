@@ -3,59 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        toss: {
+                            blue: '#0064FF',
+                            hover: '#0050CC',
+                            light: '#F9FAFC',
+                            gray: '#6B7684'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f9f9f9;
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
         }
-        .login-container {
+
+        .form-input {
             width: 100%;
-            max-width: 400px; /* 최대 크기를 제한 */
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
+            height: 52px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 0 16px;
+            transition: all 0.2s;
+            font-size: 16px;
+            background-color: #F9FAFC;
         }
-        .login-container h2 {
-            margin-bottom: 20px;
-            text-align: center;
+
+        .form-input:hover {
+            background-color: #FFFFFF;
+            border-color: #0064FF;
         }
-        .login-container input {
-            width: 100%; /* 부모 요소에 맞춤 */
-            box-sizing: border-box; /* 패딩 포함 크기 계산 */
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+
+        .form-input:focus {
+            outline: none;
+            border-color: #0064FF;
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(0, 100, 255, 0.1);
         }
-        .login-container button {
-            width: 100%; /* 버튼도 부모 요소에 맞춤 */
-            padding: 10px;
-            background-color: #4CAF50;
+
+        .form-label {
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+            color: #333D4B;
+            margin-bottom: 8px;
+        }
+
+        .submit-button {
+            width: 100%;
+            height: 52px;
+            background-color: #0064FF;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
+            transition: all 0.2s;
         }
-        .login-container button:hover {
-            background-color: #45a049;
+
+        .submit-button:hover {
+            background-color: #0050CC;
+        }
+
+        .submit-button:active {
+            transform: scale(0.98);
+        }
+
+        ::placeholder {
+            color: #6B7684;
         }
     </style>
 </head>
-<body>
-<div class="login-container">
-    <h2>로그인</h2>
-    <form th:action="@{/member/loginPage}" method="post">
-        <input type="text" name="id" placeholder="아이디" required>
-        <input type="password" name="password" placeholder="비밀번호" required>
-        <input type="text" name="name" placeholder="닉네임" required>
-        <button type="submit">로그인</button>
+<body class="bg-white min-h-screen flex items-center justify-center p-4">
+<div class="w-full max-w-[400px] space-y-10">
+    <div class="text-center space-y-3">
+        <h1 class="text-[28px] font-bold tracking-tight text-[#333D4B]">로그인</h1>
+        <p class="text-[15px] text-toss-gray">계정에 로그인하여 서비스를 이용하세요</p>
+    </div>
+
+    <form th:action="@{/member/loginPage}" method="post" class="space-y-6">
+        <div class="space-y-2">
+            <label for="id" class="form-label">아이디</label>
+            <input
+                    type="text"
+                    id="id"
+                    name="id"
+                    class="form-input"
+                    placeholder="아이디를 입력하세요"
+                    required
+            />
+        </div>
+
+        <div class="space-y-2">
+            <label for="password" class="form-label">비밀번호</label>
+            <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-input"
+                    placeholder="비밀번호를 입력하세요"
+                    required
+            />
+        </div>
+
+        <div class="space-y-2">
+            <label for="name" class="form-label">닉네임</label>
+            <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="form-input"
+                    placeholder="닉네임을 입력하세요"
+                    required
+            />
+        </div>
+
+        <button type="submit" class="submit-button">
+            로그인
+        </button>
     </form>
 </div>
 </body>

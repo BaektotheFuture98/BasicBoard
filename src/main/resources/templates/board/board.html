@@ -1,186 +1,179 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-            margin: 0;
-        }
-        .board-container {
-            width: 80%;
-            max-width: 1000px;
-            padding: 30px;
-            background: white;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            text-align: center;
-        }
-        input[type="text"] {
-            width: 70%;
-            padding: 12px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            padding: 12px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-left: 5px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f8f9fa;
+            font-family: 'Noto Sans KR', sans-serif;
         }
 
-        /* 모달 스타일 */
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
+            transition: opacity 0.3s ease;
         }
+
         .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            width: 40%;
-            max-width: 500px;
-            margin: 10% auto;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-            text-align: center;
+            transition: transform 0.3s ease;
         }
-        .close {
-            float: right;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        textarea {
-            width: 90%;
-            height: 100px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            resize: none;
+
+        .grid-item {
+            width: 250px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
-<body>
-<div class="board-container">
-    <h2>게시판</h2>
-    <p th:text="'환영합니다. ' + ${id} + '님!'" style="margin-bottom: 20px;"></p>
+<body class="bg-gray-100">
+<!-- Fixed Header -->
+<header class="fixed top-0 left-0 right-0 bg-white shadow-md z-10">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800">게시판</h1>
+        <div class="flex items-center space-x-4">
+            <span th:text="${id} + '님'" class="text-gray-600"></span>
+            <button onclick="openWriteModal()" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300">
+                <i class="fas fa-plus mr-2"></i>글쓰기
+            </button>
+        </div>
+    </div>
+</header>
 
-    <div class="button-container">
-        <form th:action="@{/board/search}" method="get" style="flex-grow: 1;">
-            <input type="text" name="keyword" placeholder="제목 검색">
-            <button type="submit">검색</button>
+<!-- Main Content -->
+<main class="container mx-auto pt-24 px-4">
+    <!-- Search Bar -->
+    <div class="mb-8">
+        <form th:action="@{/board/search}" method="get" class="flex">
+            <input type="text" name="keyword" placeholder="검색어를 입력하세요" class="flex-grow px-4 py-2 border border-gray-300 rounded-l-full focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-r-full hover:bg-blue-700 transition duration-300">
+                <i class="fas fa-search"></i>
+            </button>
         </form>
-        <button onclick="openWriteModal()">글쓰기</button>
     </div>
 
-    <table>
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>작성일</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="post : ${posts}">
-            <td th:text="${post.article_num}"></td>
-            <td>
-                <a href="#" th:text="${post.title}" th:attr="data-id=${post.article_num}" onclick="openPostModal(this); return false;"></a>
-            </td>
-            <td th:text="${post.author}"></td>
-            <td th:text="${post.createdAt}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+    <!-- Pinterest-style Grid -->
+    <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 250, "gutter": 20 }'>
+        <div th:each="post : ${posts}" class="grid-item">
+            <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300" th:attr="data-id=${post.article_num}" onclick="openPostModal(this)">
+                <img th:src="${#strings.defaultString(post.imageUrl, 'https://via.placeholder.com/250x150')}" alt="Post image" class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2 truncate" th:text="${post.title}"></h3>
+                    <p class="text-sm text-gray-600" th:text="${post.author}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 
 <!-- 글쓰기 모달 -->
-<div id="writeModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeWriteModal()">&times;</span>
-        <h2>새 글 작성</h2>
-        <form th:action="@{/board/write}" method="post">
-            <input type="text" name="title" placeholder="제목" required>
-            <textarea name="content" placeholder="내용" required></textarea>
-            <button type="submit">작성</button>
+<div id="writeModal" class="modal fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-md mx-4 p-6 transform scale-95 opacity-0 transition-all duration-300">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold text-gray-800">새 글 작성</h2>
+            <button onclick="closeWriteModal()" class="text-gray-600 hover:text-gray-800">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <form th:action="@{/board/write}" method="post" class="space-y-4" enctype="multipart/form-data">
+            <input type="text" name="title" placeholder="제목" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <textarea name="content" placeholder="내용" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 h-32 resize-none"></textarea>
+            <input type="file" name="image" accept="image/*" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 transition duration-300">작성</button>
         </form>
     </div>
 </div>
 
-<!-- 게시글 상세보기 모달 -->
-<div id="postModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closePostModal()">&times;</span>
-        <h2 id="postTitle"></h2>
-        <p id="postAuthor"></p>
-        <p id="postCreatedAt"></p>
-        <div id="postContent"></div>
+<!-- 게시글 상세 모달 -->
+<div id="postModal" class="modal fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-md mx-4 p-6 transform scale-95 opacity-0 transition-all duration-300">
+        <div class="flex justify-between items-center mb-4">
+            <h2 id="modalTitle" class="text-2xl font-bold text-gray-800"></h2>
+            <button onclick="closePostModal()" class="text-gray-600 hover:text-gray-800">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <img id="modalImage" src="https://via.placeholder.com/250x150" alt="Post Image" class="w-full h-40 object-cover rounded-md mb-4">
+        <p id="modalAuthor" class="text-sm text-gray-600"></p>
+        <p id="modalContent" class="text-gray-800 mt-2"></p>
     </div>
 </div>
 
 <script>
     function openWriteModal() {
-        document.getElementById("writeModal").style.display = "block";
+        const modal = document.getElementById("writeModal");
+        const modalContent = modal.querySelector('.modal-content');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => {
+            modalContent.style.transform = 'scale(1)';
+            modalContent.style.opacity = '1';
+        }, 10);
     }
+
     function closeWriteModal() {
-        document.getElementById("writeModal").style.display = "none";
+        const modal = document.getElementById("writeModal");
+        const modalContent = modal.querySelector('.modal-content');
+        modalContent.style.transform = 'scale(0.95)';
+        modalContent.style.opacity = '0';
+        setTimeout(() => {
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }, 300);
     }
 
     function openPostModal(element) {
-        var postId = element.getAttribute('data-id');
-
-        fetch(`/board/${postId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch post data');
-                }
-                return response.json();
-            })
+        const postId = element.getAttribute("data-id");
+        fetch(`/board/${postId}`) // 서버에서 상세 정보 가져오기
+            .then(response => response.json())
             .then(data => {
-                document.getElementById("postTitle").innerText = data.title;
-                document.getElementById("postAuthor").innerText = "작성자: " + data.author;
-                document.getElementById("postCreatedAt").innerText = "작성일: " + data.createdAt;
-                document.getElementById("postContent").innerHTML = data.content;
-                document.getElementById("postModal").style.display = "block";
+                // 서버에서 받은 데이터 출력 (디버깅용)
+                console.log(data);
+
+                // 서버 응답이 올바른 데이터 구조를 가지고 있다고 가정
+                document.getElementById("modalTitle").innerText = data.title;  // 제목
+                document.getElementById("modalAuthor").innerText = "작성자: " + data.author;  // 작성자
+                document.getElementById("modalContent").innerText = data.content;  // 내용
+
+                // 이미지 URL 확인 후 업데이트
+                document.getElementById("modalImage").src = data.imageUrl ? data.imageUrl : 'https://via.placeholder.com/250x150';
+
+                const modal = document.getElementById("postModal");
+                const modalContent = modal.querySelector('.modal-content');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                setTimeout(() => {
+                    modalContent.style.transform = 'scale(1)';
+                    modalContent.style.opacity = '1';
+                }, 10);
             })
-            .catch(error => {
-                console.error('Error fetching post details:', error);
-                alert("게시글 정보를 불러오는 데 실패했습니다.");
-            });
+            .catch(error => console.error("Error fetching post data:", error));
     }
 
     function closePostModal() {
-        document.getElementById("postModal").style.display = "none";
+        const modal = document.getElementById("postModal");
+        const modalContent = modal.querySelector('.modal-content');
+        modalContent.style.transform = 'scale(0.95)';
+        modalContent.style.opacity = '0';
+        setTimeout(() => {
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }, 300);
     }
+
+    window.addEventListener('load', () => {
+        const grid = document.querySelector('.grid');
+        if (grid) {
+            new Masonry(grid, {
+                itemSelector: '.grid-item',
+                columnWidth: 250,
+                gutter: 20
+            });
+        }
+    });
 </script>
 </body>
 </html>
+
